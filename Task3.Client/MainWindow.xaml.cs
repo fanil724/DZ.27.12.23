@@ -14,7 +14,7 @@ namespace Task3.Client
         string adres = "127.0.0.154";
         int portServer = 888;
 
-        bool IsConnected = true;
+      
 
         public MainWindow()
         {
@@ -181,21 +181,21 @@ namespace Task3.Client
         {
             try
             {
-                while (IsConnected)
+                while (true)
                 {
                     Task.Delay(1000).Wait();
                     Random random = new Random();
                     string s = psstrings[random.Next(0, psstrings.Count() - 1)];
                     await socketClient.SendAsync(Encoding.UTF8.GetBytes(s));
                     Dispatcher.Invoke(() => Chat.Items.Add($"Вы отправили в {DateTime.Now.ToString("HH:mm:ss")}: {s}"));
-                    if (s.Contains("Bye")) { IsConnected = false; return; }
+                    if (s.Contains("Bye")) { return; }
 
                     Task.Delay(1000).Wait();
                     byte[] buffer = new byte[1024];
                     var result = await socket.ReceiveAsync(buffer);
                     string texts = Encoding.UTF8.GetString(buffer, 0, result);
                     Dispatcher.Invoke(() => Chat.Items.Add($"Собеседник отправил в {DateTime.Now.ToString("HH:mm:ss")} : {texts}"));
-                    if (texts.Contains("Bye")) IsConnected = false;
+                    if (texts.Contains("Bye")) return;
                 }
             }
             catch (Exception ex)
@@ -214,8 +214,7 @@ namespace Task3.Client
             if (!socket.Connected)
             {
                 socket.Close();
-                Dispatcher.Invoke(() => Chat.Items.Add("Соединение закрыто"));
-                IsConnected = true;
+                Dispatcher.Invoke(() => Chat.Items.Add("Соединение закрыто"));               
             }
 
         }

@@ -13,7 +13,7 @@ namespace Task3.Server
         Socket socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         Socket socketServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-        bool IsConnected = true;
+       
         public MainWindow()
         {
             IPAddress ip = IPAddress.Parse("127.0.0.1");
@@ -103,7 +103,7 @@ namespace Task3.Server
                                 {
                                     sreadchat.Close();
                                     Dispatcher.Invoke(() => Chat.Items.Add("Соединение закрыто"));
-                                    IsConnected = true;
+                                   
                                 }
                             }
                         }
@@ -148,21 +148,21 @@ namespace Task3.Server
         {
             try
             {
-                while (IsConnected)
+                while (true)
                 {
                     Task.Delay(1000).Wait();
                     byte[] buffer = new byte[1024];
                     var result = socket.Receive(buffer);
                     string texts = Encoding.UTF8.GetString(buffer, 0, result);
                     Dispatcher.Invoke(() => Chat.Items.Add($"Собеседник отправил в {DateTime.Now.ToString("HH:mm:ss")} : {texts}"));
-                    if (texts.Contains("Bye")) { IsConnected = false; return; }
+                    if (texts.Contains("Bye")) { return; }
 
                     Task.Delay(1000).Wait();
                     Random random = new Random();
                     string s = psstrings[random.Next(0, psstrings.Count() - 1)];
                     socketClient.Send(Encoding.UTF8.GetBytes(s));
                     Dispatcher.Invoke(() => Chat.Items.Add($"Вы отправили в {DateTime.Now.ToString("HH:mm:ss")}: {s}"));
-                    if (s.Contains("Bye")) IsConnected = false;
+                    if (s.Contains("Bye")) return;
                 }
             }
             catch (Exception ex)

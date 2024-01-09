@@ -1,0 +1,28 @@
+﻿<Window x:Class="DZ._27._12._23.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DZ._27._12._23"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="600" ResizeMode="NoResize">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="80"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
+		
+		<Button x:Name="Welcome" Content="Отправить привет" Margin="15"   Click="Welcome_Click"/>
+
+		<Button x:Name="GetDate" Grid.Column="1" Content="Узнать дату" Margin="15" Click="GetDate_Click"/>
+		<Button x:Name="GetTime" Grid.Column="2" Content="Узнать время" Margin="15" Click="GetTime_Click"/>
+
+		<ListBox x:Name="Otschet" Grid.Row="1" Grid.ColumnSpan="3" Margin="15"/>
+	</Grid>
+</Window>
